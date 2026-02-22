@@ -72,7 +72,8 @@ public class FoodService {
     }
 
     private FoodLogResponse toResponse(FoodLog fl) {
-        return new FoodLogResponse(fl.getId(), fl.getFoodItem().getName(),
-                fl.getFoodItem().getCategory(), fl.getIntroducedDate(), fl.getReaction());
+        return new FoodLogResponse(fl.getId(), fl.getFoodItem().getId(),
+                fl.getFoodItem().getName(), fl.getFoodItem().getCategory(),
+                fl.getIntroducedDate(), fl.getReaction());
     }
 }

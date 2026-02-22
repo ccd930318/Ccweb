@@ -77,6 +77,7 @@ public class VaccinationService {
 
     private VaccinationResponse toResponse(VaccinationRecord r) {
         return new VaccinationResponse(r.getId(),
+                r.getSchedule().getId(),
                 r.getSchedule().getVaccineName(),
                 r.getSchedule().getDoseNumber(),
                 r.getAdministeredDate(),

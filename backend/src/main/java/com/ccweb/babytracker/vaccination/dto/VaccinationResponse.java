@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record VaccinationResponse(
         UUID id,
+        Long scheduleId,
         String vaccineName,
         int doseNumber,
         LocalDate administeredDate,
