@@ -1,4 +1,4 @@
-package com.ccweb.babytracker.domain.user;
+package com.ccweb.babytracker.domain.article;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,25 +8,21 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "articles")
 @Getter @Setter @NoArgsConstructor
-public class User {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
     @Column(nullable = false)
-    private String passwordHash;
+    private String title;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
 
-    @Column(nullable = false)
-    private String role = "USER";
+    private String category;
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
