@@ -8,7 +8,7 @@ import { z } from "zod";
 import { vaccinationApi, VaccineScheduleItem, VaccinationRecord } from "../../../../../lib/api";
 
 const schema = z.object({
-  scheduleId: z.coerce.number().int().positive("請選擇疫苗"),
+  scheduleId: z.number().int().positive("請選擇疫苗"),
   administeredDate: z.string().min(1, "請選擇接種日期"),
   notes: z.string().optional(),
 });
@@ -85,7 +85,7 @@ export default function VaccinationsPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">疫苗</label>
             <select
-              {...register("scheduleId")}
+              {...register("scheduleId", { valueAsNumber: true })}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">選擇疫苗</option>

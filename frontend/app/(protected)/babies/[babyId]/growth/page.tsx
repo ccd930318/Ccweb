@@ -19,9 +19,9 @@ import { growthApi, GrowthRecord } from "../../../../../lib/api";
 
 const schema = z.object({
   measurementDate: z.string().min(1, "請選擇日期"),
-  weightKg: z.coerce.number().positive("請輸入正確體重").optional().or(z.literal("")),
-  heightCm: z.coerce.number().positive("請輸入正確身高").optional().or(z.literal("")),
-  headCm: z.coerce.number().positive("請輸入正確頭圍").optional().or(z.literal("")),
+  weightKg: z.number().positive("請輸入正確體重").optional(),
+  heightCm: z.number().positive("請輸入正確身高").optional(),
+  headCm: z.number().positive("請輸入正確頭圍").optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -104,7 +104,7 @@ export default function GrowthPage() {
               <input
                 type="number"
                 step="0.01"
-                {...register("weightKg")}
+                {...register("weightKg", { setValueAs: (v: string) => v === "" ? undefined : Number(v) })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="5.20"
               />
@@ -114,7 +114,7 @@ export default function GrowthPage() {
               <input
                 type="number"
                 step="0.1"
-                {...register("heightCm")}
+                {...register("heightCm", { setValueAs: (v: string) => v === "" ? undefined : Number(v) })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="60.0"
               />
@@ -124,7 +124,7 @@ export default function GrowthPage() {
               <input
                 type="number"
                 step="0.1"
-                {...register("headCm")}
+                {...register("headCm", { setValueAs: (v: string) => v === "" ? undefined : Number(v) })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="40.0"
               />

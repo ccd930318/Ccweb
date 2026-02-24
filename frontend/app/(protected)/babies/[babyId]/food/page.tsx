@@ -8,7 +8,7 @@ import { z } from "zod";
 import { foodApi, FoodItem, FoodLogEntry } from "../../../../../lib/api";
 
 const schema = z.object({
-  foodItemId: z.coerce.number().int().positive("請選擇食物"),
+  foodItemId: z.number().int().positive("請選擇食物"),
   introducedDate: z.string().min(1, "請選擇日期"),
   reaction: z.string().optional(),
 });
@@ -90,7 +90,7 @@ export default function FoodPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">食物</label>
             <select
-              {...register("foodItemId")}
+              {...register("foodItemId", { valueAsNumber: true })}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">選擇食物</option>
