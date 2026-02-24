@@ -171,3 +171,25 @@ export const notificationApi = {
   markRead: (id: string) => api.patch<AppNotification>(`/api/notifications/${id}/read`),
   unreadCount: () => api.get<{ count: number }>("/api/notifications/unread-count"),
 };
+
+// ── Admin ──────────────────────────────────────────────────────────────────────
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  createdAt: string;
+}
+
+export interface AdminStats {
+  totalUsers: number;
+  adminCount: number;
+  totalBabies: number;
+}
+
+export const adminApi = {
+  listUsers: () => api.get<AdminUser[]>("/api/admin/users"),
+  getStats: () => api.get<AdminStats>("/api/admin/stats"),
+  updateRole: (id: string, role: string) =>
+    api.patch<AdminUser>(`/api/admin/users/${id}/role`, { role }),
+};

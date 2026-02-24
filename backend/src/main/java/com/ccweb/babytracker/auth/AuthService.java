@@ -52,7 +52,7 @@ public class AuthService {
         user.setPasswordHash(passwordEncoder.encode(req.password()));
         user.setName(req.name());
         userRepository.save(user);
-        return new AuthResponse(jwtUtils.generateAccessToken(user.getId().toString()));
+        return new AuthResponse(jwtUtils.generateAccessToken(user.getId().toString(), user.getRole()));
     }
 
     public AuthResponse login(LoginRequest req, HttpServletResponse response) {
@@ -62,7 +62,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         setRefreshCookie(user, response);
-        return new AuthResponse(jwtUtils.generateAccessToken(user.getId().toString()));
+        return new AuthResponse(jwtUtils.generateAccessToken(user.getId().toString(), user.getRole()));
     }
 
     public AuthResponse refresh(String rawToken) {
@@ -75,7 +75,8 @@ public class AuthService {
         if (rt.isRevoked() || rt.getExpiresAt().isBefore(Instant.now())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        return new AuthResponse(jwtUtils.generateAccessToken(rt.getUser().getId().toString()));
+        User user = rt.getUser();
+        return new AuthResponse(jwtUtils.generateAccessToken(user.getId().toString(), user.getRole()));
     }
 
     public void logout(String rawToken, HttpServletResponse response) {

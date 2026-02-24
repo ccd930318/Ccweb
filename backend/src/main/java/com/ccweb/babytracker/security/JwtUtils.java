@@ -21,9 +21,10 @@ public class JwtUtils {
         this.accessExpiryMs = accessExpiryMs;
     }
 
-    public String generateAccessToken(String userId) {
+    public String generateAccessToken(String userId, String role) {
         return Jwts.builder()
                 .subject(userId)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessExpiryMs))
                 .signWith(key)
@@ -41,6 +42,10 @@ public class JwtUtils {
 
     public String extractUserId(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return getClaims(token).get("role", String.class);
     }
 
     private Claims getClaims(String token) {
