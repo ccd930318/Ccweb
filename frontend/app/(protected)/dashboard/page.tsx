@@ -110,7 +110,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   <Link
                     href={`/babies/${b.id}/growth`}
                     className="flex flex-col items-center p-3 bg-green-50 rounded-xl hover:bg-green-100 transition-colors"
@@ -138,6 +138,13 @@ export default function DashboardPage() {
                   >
                     <span className="text-2xl">📖</span>
                     <span className="text-xs text-gray-700 mt-1">育兒文章</span>
+                  </Link>
+                  <Link
+                    href={`/babies/${b.id}/invite`}
+                    className="flex flex-col items-center p-3 bg-pink-50 rounded-xl hover:bg-pink-100 transition-colors"
+                  >
+                    <span className="text-2xl">👨‍👩‍👧</span>
+                    <span className="text-xs text-gray-700 mt-1">邀請家人</span>
                   </Link>
                 </div>
               </div>

@@ -15,6 +15,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import Link from "next/link";
 import { growthApi, GrowthRecord } from "../../../../../lib/api";
 
 const schema = z.object({
@@ -72,7 +73,10 @@ export default function GrowthPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-800">成長記錄</h1>
+        <div className="flex items-center gap-3">
+          <Link href="/dashboard" className="text-sm text-blue-600 hover:underline">← 返回</Link>
+          <h1 className="text-xl font-bold text-gray-800">成長記錄</h1>
+        </div>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"

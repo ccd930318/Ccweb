@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Link from "next/link";
 import { foodApi, FoodItem, FoodLogEntry } from "../../../../../lib/api";
 
 const schema = z.object({
@@ -73,7 +74,10 @@ export default function FoodPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-800">副食品日記</h1>
+        <div className="flex items-center gap-3">
+          <Link href="/dashboard" className="text-sm text-blue-600 hover:underline">← 返回</Link>
+          <h1 className="text-xl font-bold text-gray-800">副食品日記</h1>
+        </div>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"

@@ -11,12 +11,41 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+let isRefreshing = false;
+let refreshQueue: Array<(token: string) => void> = [];
+
 api.interceptors.response.use(
   (res) => res,
-  (err) => {
-    if (err.response?.status === 401 && typeof window !== "undefined") {
-      Cookies.remove("accessToken");
-      window.location.href = "/login";
+  async (err) => {
+    const original = err.config;
+    const isRefreshEndpoint = original?.url?.includes("/api/auth/refresh");
+    if (err.response?.status === 401 && !original?._retry && !isRefreshEndpoint) {
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          refreshQueue.push((token) => {
+            original.headers.Authorization = `Bearer ${token}`;
+            resolve(api(original));
+          });
+        });
+      }
+      original._retry = true;
+      isRefreshing = true;
+      try {
+        const res = await authApi.refresh();
+        const newToken = res.data.accessToken;
+        Cookies.set("accessToken", newToken, { expires: 1 / 96 });
+        api.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        refreshQueue.forEach((cb) => cb(newToken));
+        refreshQueue = [];
+        original.headers.Authorization = `Bearer ${newToken}`;
+        return api(original);
+      } catch {
+        Cookies.remove("accessToken");
+        if (typeof window !== "undefined") window.location.href = "/login";
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
     }
     return Promise.reject(err);
   }

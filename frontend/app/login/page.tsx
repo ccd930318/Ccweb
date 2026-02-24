@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "../../lib/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
 const schema = z.object({
   email: z.string().email("請輸入有效的電子信箱"),
@@ -15,9 +15,11 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export default function LoginPage() {
+function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -30,7 +32,7 @@ export default function LoginPage() {
     try {
       setError(null);
       await login(data.email, data.password);
-      router.push("/dashboard");
+      router.push(redirect ?? "/dashboard");
     } catch {
       setError("電子信箱或密碼錯誤");
     }
@@ -93,5 +95,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
