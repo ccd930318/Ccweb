@@ -14,7 +14,7 @@ class JwtUtilsTest {
 
     @Test
     void generateAndValidateAccessToken() {
-        String token = jwtUtils.generateAccessToken("user-id-123");
+        String token = jwtUtils.generateAccessToken("user-id-123", "USER");
         assertNotNull(token);
         assertTrue(jwtUtils.isValid(token));
         assertEquals("user-id-123", jwtUtils.extractUserId(token));
@@ -30,7 +30,7 @@ class JwtUtilsTest {
 
     @Test
     void tokenWithWrongSignatureIsInvalid() {
-        String token = jwtUtils.generateAccessToken("user-id-123");
+        String token = jwtUtils.generateAccessToken("user-id-123", "USER");
         // Tamper with the signature part
         String tamperedToken = token.substring(0, token.lastIndexOf('.')) + ".tampered";
         assertFalse(jwtUtils.isValid(tamperedToken));

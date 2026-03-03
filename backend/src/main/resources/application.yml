@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/babytracker
-    username: bt_user
-    password: bt_pass
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/babytracker}
+    username: ${SPRING_DATASOURCE_USERNAME:bt_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:bt_pass}
   jpa:
     hibernate:
       ddl-auto: validate
